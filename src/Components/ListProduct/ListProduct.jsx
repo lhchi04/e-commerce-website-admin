@@ -1,4 +1,3 @@
-import React from 'react'
 import './ListProduct.css'
 import { useState } from 'react'
 import { useEffect } from 'react';
@@ -8,7 +7,7 @@ const ListProduct = () => {
   const [allproducts, setAllProducts] = useState([]);
 
   const fetchInfo = async () => {
-    await fetch('http://localhost:4000/allproducts')
+    await fetch(`${import.meta.env.VITE_API_URL}/allproducts`)
     .then((res) => res.json())
     .then((data) => {setAllProducts(data)});
   }
@@ -18,7 +17,7 @@ const ListProduct = () => {
   }, [])
 
   const remove_product = async (id) => {
-    await fetch('http://localhost:4000/removeproduct', {
+    await fetch(`${import.meta.env.VITE_API_URL}/removeproduct`, {
       method: 'POST',
       headers: {
         Accept: 'application/json',
@@ -43,8 +42,8 @@ const ListProduct = () => {
       <div className="listproduct-allproducts">
         <hr />
         {allproducts.map((product, index) => {
-          return <>
-          <div key={index} className="listproduct-format-main listproduct-format">
+          return <div key={index}>
+          <div className="listproduct-format-main listproduct-format">
             <img src={product.image} alt="" className="listproduct-product-icon" />
             <p>{product.name}</p>
             <p>{product.old_price}</p>
@@ -53,7 +52,7 @@ const ListProduct = () => {
             <img onClick={() => {remove_product(product.id)}} src={cross_icon} alt="" className="listproduct-remove-icon" />
           </div>
           <hr />
-          </>
+          </div>
         })}
       </div>
     </div>
